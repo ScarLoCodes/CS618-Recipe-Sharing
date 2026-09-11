@@ -1,7 +1,7 @@
 import { createServer } from "node:http";
 import { MongoClient } from "mongodb";
 const url = "mongodb://localhost:27017/";
-const dbName = "mydb";
+const dbName = "test";
 const client = new MongoClient(url);
 try {
   await client.connect();
