@@ -2,7 +2,7 @@ import { createServer } from "node:http";
 const server = createServer((req, res) => {
   res.statusCode = 200;
   res.setHeader("Content-Type", "text/plain");
-  res.end("Hello HTTP world!");
+  res.end("HELLO HTTP world!");
 });
 const host = "localhost";
 const port = 3000;
