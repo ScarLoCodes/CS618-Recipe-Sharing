@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+sitemap: https://supreme-xylophone-w5grgjvg9w9f5v6j-5173.app.github.dev/sitemap.xml

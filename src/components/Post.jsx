@@ -1,14 +1,32 @@
 import PropTypes from "prop-types";
 import { User } from "./User.jsx";
-export function Post({ title, contents, author, image }) {
+import { Link } from "react-router-dom";
+import slug from "slug";
+export function Post({
+  title,
+  contents,
+  author,
+  image,
+  _id,
+  fullPost = false,
+}) {
   return (
     <article>
-      <h3>{title}</h3>
-      <img src={image} height="100" width="100" alt={title} />
-      <div>{contents}</div>
+      {fullPost ? (
+        <div>
+          <img src={image} height="100" width="100" alt={title} />
+          <h3>{title}</h3>
+        </div>
+      ) : (
+        <Link to={`/posts/${_id}/${slug(title)}`}>
+          <img src={image} height="100" width="100" alt={title} />
+          <h3>{title}</h3>
+        </Link>
+      )}
+      {fullPost && <div>{contents}</div>}
       {author && (
         <em>
-          <br />
+          {fullPost && <br />}
           Written by <User id={author} />
         </em>
       )}
@@ -20,4 +38,6 @@ Post.propTypes = {
   contents: PropTypes.string,
   author: PropTypes.string,
   image: PropTypes.string,
+  _id: PropTypes.string.isRequired,
+  fullPost: PropTypes.bool,
 };
