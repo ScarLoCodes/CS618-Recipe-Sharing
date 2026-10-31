@@ -1,0 +1,4 @@
+{
+  "schema": "https://supreme-xylophone-w5grgjvg9w9f5v6j-3000.app.github.dev/graphql",
+  "documents": "src/api/graphql/**/*.{js,jsx}"
+}
