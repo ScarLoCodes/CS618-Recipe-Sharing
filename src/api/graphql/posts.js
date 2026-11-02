@@ -23,6 +23,7 @@ export const POST_FIELDS = gql`
 `;
 
 export const GET_POSTS = gql`
+  ${POST_FIELDS}
   query getPosts($options: PostsOptions) {
     posts(options: $options) {
       ...PostFields
