@@ -2,25 +2,39 @@ import PropTypes from "prop-types";
 import { User } from "./User.jsx";
 import { Link } from "react-router-dom";
 import slug from "slug";
-export function Post({ title, contents, author, image, id, fullPost = false }) {
+export function Post({
+  title,
+  contents,
+  author,
+  image,
+  id,
+  likes,
+  fullPost = false,
+}) {
   return (
     <article>
       {fullPost ? (
         <div>
           <img src={image} height="100" width="100" alt={title} />
           <h3>{title}</h3>
+          <span>&#9829; Likes: {likes}</span>
+          <button>Like</button>
         </div>
       ) : (
         <Link to={`/posts/${id}/${slug(title)}`}>
           <img src={image} height="100" width="100" alt={title} />
           <h3>{title}</h3>
+          <span>&#9829; Likes: {likes}</span>
         </Link>
       )}
       {fullPost && <div>{contents}</div>}
       {author && (
         <em>
           {fullPost && <br />}
-          Written by <User {...author} />
+          <span>
+            {" "}
+            Written by <User {...author} />
+          </span>
         </em>
       )}
     </article>
@@ -32,5 +46,6 @@ Post.propTypes = {
   author: PropTypes.shape(User.propTypes),
   image: PropTypes.string,
   id: PropTypes.string.isRequired,
+  likes: PropTypes.number,
   fullPost: PropTypes.bool,
 };

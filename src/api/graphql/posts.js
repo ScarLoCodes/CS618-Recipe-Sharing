@@ -16,6 +16,7 @@ export const POST_FIELDS = gql`
     tags
     updatedAt
     createdAt
+    likes
     author {
       username
     }
