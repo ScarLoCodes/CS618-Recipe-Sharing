@@ -19,6 +19,7 @@ export const POST_FIELDS = gql`
     author {
       username
     }
+    likes
   }
 `;
 

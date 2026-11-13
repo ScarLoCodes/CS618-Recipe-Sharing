@@ -1,5 +1,6 @@
 import { Post } from "../db/models/post.js";
 import { User } from "../db/models/user.js";
+import { Like } from "../db/models/like.js";
 export async function createPost(userId, { title, contents, tags, image }) {
   const post = new Post({ title, author: userId, contents, tags, image });
   return await post.save();
@@ -37,4 +38,13 @@ export async function updatePost(
 }
 export async function deletePost(userId, postId) {
   return await Post.deleteOne({ _id: postId, author: userId });
+}
+
+export async function getLikesCount(postId) {
+  return await Like.countDocuments({ post: postId });
+}
+
+export async function checkLikeExists(postId, userId) {
+  const like = await Like.findOne({ post: postId, user: userId });
+  return !!like;
 }
