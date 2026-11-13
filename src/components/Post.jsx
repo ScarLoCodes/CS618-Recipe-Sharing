@@ -16,16 +16,18 @@ export function Post({
       {fullPost ? (
         <div>
           <img src={image} height="100" width="100" alt={title} />
-          <h3>{title}</h3>
+          <hr />
           <span>
             <button>&#10084; Likes: {likes}</button>{" "}
           </span>
+          <h3>{title}</h3>
         </div>
       ) : (
         <Link to={`/posts/${id}/${slug(title)}`}>
           <img src={image} height="100" width="100" alt={title} />
           <h3>{title}</h3>
           <span>&#10084; Likes: {likes}</span>
+          <br />
         </Link>
       )}
       {fullPost && <div>{contents}</div>}

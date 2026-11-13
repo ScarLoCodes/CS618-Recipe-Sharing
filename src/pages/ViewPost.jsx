@@ -1,14 +1,16 @@
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Header } from "../components/Header.jsx";
 import { Post } from "../components/Post.jsx";
-import { getPostById } from "../api/posts.js";
+//import { getPostById } from "../api/posts.js";
 import { PostStats } from "../components/PostStats.jsx";
 import { Helmet } from "react-helmet-async";
 import { useEffect, useState } from "react";
 import { postTrackEvent } from "../api/events.js";
-import { getUserInfo } from "../api/users.js";
+//import { getUserInfo } from "../api/users.js";
+import { GET_POST_BY_ID } from "../api/graphql/posts.js";
+import { useQuery as useGraphQLQuery } from "@apollo/client/react/index.js";
 export function ViewPost({ postId }) {
   const [session, setSession] = useState();
   const trackEventMutation = useMutation({
@@ -26,17 +28,23 @@ export function ViewPost({ postId }) {
     };
   }, []);
 
-  const postQuery = useQuery({
+  const postQuery = useGraphQLQuery(GET_POST_BY_ID, {
+    variables: { id: postId },
+  });
+
+  const post = postQuery.data?.postById;
+
+  /*   const postQuery = useQuery({
     queryKey: ["post", postId],
     queryFn: () => getPostById(postId),
   });
-  const post = postQuery.data;
-  const userInfoQuery = useQuery({
+  const post = postQuery.data; */
+  /*   const userInfoQuery = useQuery({
     queryKey: ["users", post?.author],
     queryFn: () => getUserInfo(post?.author),
     enabled: Boolean(post?.author),
   });
-  const userInfo = userInfoQuery.data ?? {};
+  const userInfo = userInfoQuery.data ?? {}; */
 
   function truncate(str, max = 160) {
     if (!str) return str;
@@ -57,7 +65,7 @@ export function ViewPost({ postId }) {
           <meta property="og:title" content={post.title} />
           <meta property="og:article:published_time" content={post.createdAt} />
           <meta property="og:article:modified_time" content={post.updatedAt} />
-          <meta property="og:article:author" content={userInfo.username} />
+          <meta property="og:article:author" content={post.author?.username} />
           {(post.tags ?? []).map((tag) => (
             <meta key={tag} property="og:article:tag" content={tag} />
           ))}
@@ -72,7 +80,7 @@ export function ViewPost({ postId }) {
       <hr />
       {post ? (
         <div>
-          <Post {...post} fullPost id={postId} author={userInfo} />
+          <Post {...post} fullPost id={postId} author={post.author} />
           <hr /> <PostStats postId={postId} />
         </div>
       ) : (
