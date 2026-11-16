@@ -48,3 +48,8 @@ export async function checkLikeExists(postId, userId) {
   const like = await Like.findOne({ post: postId, user: userId });
   return !!like;
 }
+
+export async function addLike(postId, userId) {
+  const like = new Like({ post: postId, user: userId, date: Date.now() });
+  return await like.save();
+}

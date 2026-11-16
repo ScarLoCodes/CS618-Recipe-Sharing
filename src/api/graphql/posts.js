@@ -8,6 +8,17 @@ export const CREATE_POST = gql`
   }
 `;
 
+export const CREATE_LIKE = gql`
+  mutation createLike($postId: ID!) {
+    createLike(postId: $postId) {
+      id
+      post {
+        id
+      }
+    }
+  }
+`;
+
 export const POST_FIELDS = gql`
   fragment PostFields on Post {
     id
