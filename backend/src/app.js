@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
+import { handleSocket } from "./socket.js";
 
 const app = express();
 app.use(bodyParser.json());
@@ -20,11 +21,13 @@ const io = new Server(server, {
     origin: "*",
   },
 });
-io.on("connection", (socket) => {
-  console.log("user connected:", socket.id);
-  socket.on("disconnect", () => {
-    console.log("user disconnected:", socket.id);
-  });
-});
+handleSocket(io);
+/* io.on('connection', (socket) => {
+  console.log('user connected:', socket.id)
+  socket.on('disconnect', () => {
+    console.log('user disconnected:', socket.id)
+  })
+}) */
+
 export { server as app };
 // export { app }
